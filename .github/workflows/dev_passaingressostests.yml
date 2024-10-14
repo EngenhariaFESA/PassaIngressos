@@ -20,18 +20,24 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '6.0.x'
+          
+      - name: Restore NuGet packages
+        run: dotnet restore PassaIngressos_WebAPI.Tests/PassaIngressos_WebAPI.Tests.csproj
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build PassaIngressos_WebAPI/PassaIngressos_WebAPI.csproj --configuration Release
+
+      - name: Run tests
+        run: dotnet test PassaIngressos_WebAPI.Tests/PassaIngressos_WebAPI.Tests.csproj --configuration Release --no-restore --verbosity normal
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish  PassaIngressos_WebAPI/PassaIngressos_WebAPI.csproj -c Release -o myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: myapp
 
   deploy:
     runs-on: windows-latest
@@ -51,9 +57,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_47FF28F9E710465B91264503B4144E78 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D18458140A9E4335990A761A2B2B2A31 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E4374E4CDCB44F67B65D60781F91F3E5 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_850EC99C65E3429DBDF5085B44865838 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_258E797073034BC68FADA4024268ED53 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_24D4A7004F924020A27E568ADFE7BD86 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -62,4 +68,3 @@ jobs:
           app-name: 'PassaIngressosTESTS'
           slot-name: 'Production'
           package: .
-          
