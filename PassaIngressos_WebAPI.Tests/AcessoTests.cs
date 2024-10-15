@@ -23,7 +23,7 @@ namespace PassaIngressos_WebAPI.Tests
             _controller = new AcessoController(_context);
         }
 
-        /*[Fact]
+        [Fact]
         public async Task CriarUsuario_RetornaOk_QuandoUsuarioForCriado()
         {
             // Arrange
@@ -68,7 +68,7 @@ namespace PassaIngressos_WebAPI.Tests
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal("Conta excluída com sucesso.", okResult.Value);
-        }*/
+        }
 
         [Fact]
         public async Task RemoverUsuario_RetornaNaoEncontrado_QuandoUsuarioNaoExistir()
