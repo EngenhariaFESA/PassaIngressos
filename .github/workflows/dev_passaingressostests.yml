@@ -21,8 +21,14 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
+      - name: Restore NuGet packages
+        run: dotnet restore PassaIngressos_WebAPI.Tests/PassaIngressos_WebAPI.Tests.csproj
+
       - name: Build with dotnet
         run: dotnet build PassaIngressos_WebAPI/PassaIngressos_WebAPI.csproj --configuration Release
+
+      - name: Run tests
+        run: dotnet test PassaIngressos_WebAPI.Tests/PassaIngressos_WebAPI.Tests.csproj --configuration Release --no-restore --verbosity normal
 
       - name: dotnet publish
         run: dotnet publish PassaIngressos_WebAPI/PassaIngressos_WebAPI.csproj -c Release -o myapp
